@@ -9,3 +9,6 @@ Simple container that displays
 
 This application is intended to be used to showcase container behaviour once started 
 on Docker/Podman and Kubernetes. 
+
+## Example
+![Example](docs/screenshot.png "Example")
