@@ -1,5 +1,5 @@
 ## Intermediate build with multiple layers
-FROM node:18-alpine AS builder
+FROM node:18-alpine
 
 # Create working directory
 RUN mkdir -p /app/bin && mkdir -p /app/public && mkdir -p /app/views
@@ -15,15 +15,6 @@ COPY ./public/ /app/public
 
 # Install dependencies
 RUN npm install
-
-
-## Final build with less layers
-FROM alpine
-WORKDIR /app 
-COPY --from=builder /app /app/
-# Copy node binaries to the final build
-COPY --from=builder /usr/local/bin/node /usr/local/bin/
-COPY --from=builder /usr/lib/ /usr/lib/
 
 # Start the webserver
 CMD [ "node", "bin/index.js" ]
