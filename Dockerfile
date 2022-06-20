@@ -14,7 +14,7 @@ COPY ./views/ /app/views
 COPY ./public/ /app/public
 
 # Install dependencies
-RUN npm install
+RUN npm install --production
 
 # Start the webserver
 CMD [ "node", "bin/index.js" ]
