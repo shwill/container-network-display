@@ -1,0 +1,6 @@
+{
+    "verbose": true,
+    "events": {
+        "restart": "npm run build"
+      }
+  }
