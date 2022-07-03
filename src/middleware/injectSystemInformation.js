@@ -5,6 +5,7 @@ import { readFileSync } from "fs"
 import dayjs from "dayjs"
 import duration from "dayjs/plugin/duration.js"
 import relativeTime from "dayjs/plugin/relativeTime.js"
+
 dayjs.extend(duration)
 dayjs.extend(relativeTime)
 
@@ -24,6 +25,22 @@ const getUptime = () => {
     }
 
     return UPTIME
+}
+
+const getOSInformation = () => {
+    const CORES = os.cpus();
+    let cpuCoreDescription = "n/a"
+
+    const CORES_COUNT = CORES.length + 1
+    if (CORES_COUNT) {
+        cpuCoreDescription = `${CORES_COUNT} * ${CORES[0].model} (${(CORES[0].speed ).toFixed(3)} MHz)`;
+    }
+
+    return {
+        hostname: os.hostname(),
+        memory: `${os.totalmem() / 1024 / 1024} GB`,
+        cpu: cpuCoreDescription
+    }
 }
 
 const getNICs = () => {
@@ -48,7 +65,7 @@ const getNICs = () => {
 }
 
 const systemInfo = {
-    hostname: os.hostname(),
+    ...getOSInformation(),
     app: getAppMeta(),
     nics: getNICs()
 }

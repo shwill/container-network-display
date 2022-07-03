@@ -7,136 +7,72 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body class="antialiased">
-    <div class="bg-gray-50 pt-12 sm:pt-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
-          <h2
-            class="text-3xl font-extrabold text-gray-900 sm:text-4xl"
-          >{{hostname}}</h2>
 
-          <div class="max-w-4xl mx-auto justify-center">
-            <div class="flex flex-0 space-x-1 text-center justify-center">
-             <div class="max-w-4xl pt-1.5 space-x-1.5">{{app.name}}, v{{app.version}}</p></div>
-              <div>
-                <span
-                  class="h-8 w-8 rounded-full  flex items-center justify-center "
-                >
-                  <!-- Heroicon name: solid/user -->
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="{2}"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"
-                    ></path>
-                  </svg>
-                </span>
-              </div>
-              <div class="min-w-0 flex-0 pt-1.5 flex justify-left">
-                <div>
-                  <p class="text-sm text-gray-500">{{uptime.startTime}} ({{uptime.duration}})</p>
-                </div>
-              </div>
-            </div>
+  <body class="antialiased font-sans bg-gray-200">
 
+    <!-- This example requires Tailwind CSS v2.0+ -->
+    <div class="bg-gray-100">
+      <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">{{hostname}}</h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">{{app.name}}, v{{app.version}}</p>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">Up since: {{uptime.startTime}} ({{uptime.duration}})</p>
+            
           </div>
-
+          <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+            <dl class="sm:divide-y sm:divide-gray-200">
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">CPU</dt>
+                <dd
+                  class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                >{{ cpu }}</dd>
+              </div>
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-sm font-medium text-gray-500">Memory</dt>
+                <dd
+                  class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                >{{ memory }}</dd>
+              </div>
+              
+              {{#each nics}}
+              <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <dt class="text-medium font-large text-gray-700 font-bold"><span class="text-gray-700 font-bold">{{this.interface}}</span>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500"><span class="text-gray-700 font-bold">MAC</span> {{this.mac}}</p>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500"><span class="text-gray-700 font-bold">Type</span> {{this.type}}</p>
+                </dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <ul
+                    role="list"
+                    class="border border-gray-200 rounded-md divide-y divide-gray-200"
+                  > {{#each this.stacks}}
+                    <li
+                      class="pl-3 pr-4 py-3 flex items-center justify-between text-sm"
+                    >
+                    
+                      <div class="w-0 flex-1 flex flex-col items-left">
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500"><span class="text-gray-700 font-bold">IP</span> {{this.address}} ({{this.family}})</p>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500"><span class="text-gray-700 font-bold">Netmask</span> {{this.netmask}}</p>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500"><span class="text-gray-700 font-bold">CIDR</span> {{this.cidr}}</p>
+                      </div>
+                      <div class="ml-4 flex-shrink-0">
+                        <a
+                          href="#"
+                          class="font-medium text-indigo-600 hover:text-indigo-500"
+                        > Download </a>
+                      </div>
+                    </li>
+                    {{/each}}
+                  </ul>
+                </dd>
+              </div>
+              {{/each}}
+            </dl>
+          </div>
         </div>
       </div>
-      {{#each nics}}
-        <div class="mt-10 pb-12 bg-white sm:pb-16">
-          <div class="relative">
-            <div class="absolute inset-0 h-1/2 bg-gray-50"></div>
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div class="max-w-4xl mx-auto">
-                <dl
-                  class="rounded-none bg-white shadow-lg sm:grid sm:grid-cols-3"
-                >
-                  <div
-                    class="flex flex-col border-t border-b border-sky-200 p-6 text-center sm:border-0 sm:border-l sm:border-r {{#strEqual this.type 'Internal'}} border-sky-800 bg-sky-800/50{{ else}} bg-sky-800/25{{/strEqual}}"
-                  >
-                    <dt
-                      class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500"
-                    >Interface</dt>
-                    <dd
-                      class="order-1 text-2xl font-extrabold text-indigo-600"
-                    >{{this.interface}}
-                    </dd>
-                  </div>
-                  <div
-                    class="flex flex-col border-b border-sky-200 p-6 text-center sm:border-0 sm:border-r {{#strEqual this.type 'Internal'}} border-sky-800 bg-sky-800/50{{ else}} bg-sky-800/25{{/strEqual}}"
-                  >
-                    <dt
-                      class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500"
-                    >MAC</dt>
-                    <dd
-                      class="order-1 text-2xl font-extrabold text-indigo-600"
-                    >{{this.mac}}</dd>
-                  </div>
-                  <div
-                    class="flex flex-col border-b border-sky-200 p-6 text-center sm:border-0 sm:border-r {{#strEqual this.type 'Internal'}} border-sky-800 bg-sky-800/50{{ else}} bg-sky-800/25{{/strEqual}}"
-                  >
-                    <dt
-                      class="order-2 mt-2 text-lg leading-6 font-medium text-gray-500 "
-                    >Type</dt>
-                    <dd
-                      class="order-1 text-2xl font-extrabold text-indigo-600"
-                    >{{this.type}}</dd>
-                  </div>
-                </dl>
-              </div>
-
-              <div class="max-w-4xl mx-auto">
-                <dl
-                  class="rounded-none bg-white shadow-lg sm:grid sm:grid-cols-3"
-                >
-                  {{#each this.stacks}}
-                    <div
-                      class="flex flex-col border-t border-b border-gray-100 p-6 text-center sm:border-0 sm:border-l sm:border-r bg-gray-50"
-                    >
-                      <dt
-                        class="order-2 mt-2 text-base leading-6 font-medium text-gray-500"
-                      > {{this.address}} </dt>
-                      <dd
-                        class="order-1 text-lg font-extrabold text-sky-600/100"
-                      >
-                        {{this.family}}</dd>
-                    </div>
-                    <div
-                      class="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r bg-gray-50"
-                    >
-                      <dt
-                        class="order-2 mt-2 text-base leading-6 font-medium text-gray-500"
-                      >{{this.netmask}}</dt>
-                      <dd
-                        class="order-1 text-lg font-extrabold text-sky-600/100"
-                      >Netmask</dd>
-                    </div>
-                    <div
-                      class="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r bg-gray-50"
-                    >
-                      <dt
-                        class="order-2 mt-2 text-base leading-6 font-medium text-gray-500"
-                      >{{this.cidr}}</dt>
-                      <dd
-                        class="order-1 text-lg font-extrabold text-sky-600/100"
-                      >CIDR</dd>
-                    </div>
-                  {{/each}}
-                </dl>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      {{/each}}
     </div>
+
   </body>
 </html>
