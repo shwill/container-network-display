@@ -1,9 +1,6 @@
 name: ci
 on:
   push:
-env:
-  IMAGE_NAME: container-network-display
-  OWNER_NAME: shwill
 jobs:
   buildx:
     runs-on: ubuntu-latest
@@ -41,4 +38,4 @@ jobs:
           context: .            
           file: ./Dockerfile            
           push: true                     
-          tags: ghcr.io/$OWNER_NAME/$IMAGE_NAME:${{ steps.package-version.outputs.current-version}}, ghcr.io/$OWNER_NAME/$IMAGE_NAME:latest
+          tags: ghcr.io/shwill/container-network-display:${{ steps.package-version.outputs.current-version}}, ghcr.io/shwill/container-network-display:latest
