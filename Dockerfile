@@ -14,7 +14,7 @@ COPY ./views/ /app/views
 COPY ./public/ /app/public
 
 # Install dependencies
-RUN npm install --production
+RUN npm install --ommit=dev
 
 # Define the port the webserver should listen to
 ENV PORT 3000
