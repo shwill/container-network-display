@@ -16,5 +16,10 @@ COPY ./public/ /app/public
 # Install dependencies
 RUN npm install --production
 
+# Define the port the webserver should listen to
+ENV PORT 3000
+# and expose this port, too
+EXPOSE 3000
+
 # Start the webserver
 CMD [ "node", "bin/index.js" ]
