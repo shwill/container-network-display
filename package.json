@@ -1,6 +1,6 @@
 {
   "name": "container-network-display",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple JS webserver displaying stats from it's environment (hostname, process uptime, network information) for educational purposes.",
   "main": "src/index.js",
   "scripts": {
