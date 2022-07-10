@@ -1,6 +1,13 @@
 name: ci
 on:
   push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
 jobs:
   buildx:
     runs-on: ubuntu-latest
@@ -33,6 +40,8 @@ jobs:
           images: |
             ghcr.io/shwill/container-network-display
           tags: |
+            type=ref,event=branch
+            type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
       - name: Login to GHCR
